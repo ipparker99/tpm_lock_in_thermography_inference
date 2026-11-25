@@ -17,7 +17,8 @@ ub = 400;
 
 % call lsqnonlin
 Kf_crit = lsqnonlin(fun, x0, lb, ub);
-disp("Best fit film thermal conductivity: " + Kf_crit + " W/m/K")
+disp("Best fit film thermal conductivity: " + Kf_crit...
+    + " W/m/K" + newline)
 
 function f = res(Kf, Ks, C, a, R, h, Rth, r, P, f, data, offset)
     

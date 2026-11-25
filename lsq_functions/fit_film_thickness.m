@@ -18,7 +18,7 @@ ub = 1E-03;
 % call lsqnonlin
 [hf_crit,~] = lsqnonlin(fun, x0, lb, ub);
 
-disp("Best fit film thickness: " + hf_crit + " m")
+disp("Best fit film thickness: " + hf_crit + " m" + newline)
 
 function f = res(Kf, Ks, C, a, R, h, Rth, r, P, f, data, offset)
     

@@ -19,7 +19,7 @@ ub = [800e-6,800e-6];
 % call lsqnonlin
 [r_crit,~] = lsqnonlin(fun,r0,lb,ub);
 
-disp("Best fit spot sizes: " + r_crit(1) + ", " + r_crit(2) + " m")
+disp("Best fit spot sizes: " + r_crit(1) + ", " + r_crit(2) + " m" + newline)
 
 function f = res(r,K,C,a,R,h,Rth,P,f,data)
 

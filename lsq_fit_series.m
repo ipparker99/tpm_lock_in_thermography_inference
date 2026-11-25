@@ -9,14 +9,13 @@ addpath("lsq_functions")
 vars = load("config.mat");
 data = vars.data;
 
-% initial spot size
-r0 = vars.r;
 
-% Fit spot size
+%% Fit spot size
+r0 = vars.r;
 r_crit = fit_spot_size(vars, r0);
 vars.r = r_crit; % update laser spot size variable
 
-% Fit substrate thermal conductivity and offset
+%% Fit substrate thermal conductivity and offset
 Ks_0 = vars.K(1, 2); % W/m-K
 offset_0 = vars.offset; % intitial guess for offset
 [Ks_crit, offset_crit] = fit_k(vars, data, [Ks_0, offset_0]);
@@ -24,18 +23,32 @@ K_substrate = [Ks_crit, 0, 0, Ks_crit, 0, Ks_crit].'; % (6,1)
 vars.K = [vars.K(:,1), K_substrate]; % update vars.K
 vars.offset = offset_crit; % update vars.offset
 
-% Fit substrate thickness
+%% Fit film thickness
 hf_0 = vars.h(1);
 hf_crit = fit_film_thickness(vars, data, hf_0);
 vars.h(1) = hf_crit; % update film thickness
 
-% Fit film thermal conductivity
+%% Fit film thermal conductivity
 Kf_0 = vars.K(1,1);
 Kf_crit = fit_film_k(vars, data, Kf_0);
 Kf = [Kf_crit, 0, 0, Kf_crit, 0, Kf_crit].';
 vars.K = [Kf, vars.K(:,2)];
 
-% Fit several parameters again
+% %% Fit substrate volumetric heat capacity
+% Cs_0 = vars.C(2); % Initial guess for substrate volumetric heat capacity
+% offset_0 = vars.offset;
+% x0 = [Cs_0, offset_0];
+% x0_crit = fit_sub_C(vars, data, x0);
+% 
+% % Unpack optimized values
+% Cs_crit = x0_crit(1);
+% offset_crit = x0_crit(2);
+% 
+% % Update vars
+% vars.C(2) = Cs_crit; % update substrate volumetric heat capacity
+% vars.offset = offset_crit;
+
+%% Fit several parameters again
 Kf_0 = vars.K(1, 1); % W/m/K
 Ks_0 = vars.K(1, 2); % W/m/K
 hf_0 = vars.h(1); % m
@@ -72,12 +85,12 @@ function [] = diagnose(vars, data)
     figure(1)
     clf
     hold on
-    scatter3(data.X, data.Y, data.phase, 20, data.phase, 'filled')
-    xlabel("X (m)")
-    ylabel("Y (m)")
-    zlabel("Phase")
+    scatter3(data.X*1E+06, data.Y*1E+06, data.phase, 35, data.phase, 'filled')
+    xlabel("X (um)")
+    ylabel("Y (um)")
+    zlabel("Phase (deg)")
     colorbar
-    fontsize(18,"points")
+    fontsize(16,"points")
 
     % Scattered interpolant
     phase_model_interp = scatteredInterpolant(X, Y, phase_model);

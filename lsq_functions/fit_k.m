@@ -23,7 +23,9 @@ ub = [400,180];
 Kiso_crit = x_crit(1);
 offset_crit = x_crit(2);
 
-disp("Best fit substrate thermal conductivity: " + Kiso_crit + "W/m/K")
+disp("Best fit substrate thermal conductivity: " + Kiso_crit...
+    + " W/m/K" + newline)
+
 
 function f = res(Kiso, offset, Kf, C, a, R, h, Rth, r, P, f, data)
     

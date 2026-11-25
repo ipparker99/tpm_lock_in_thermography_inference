@@ -2,7 +2,7 @@ function x_crit = lsq_fit(vars, data, x0)
 % x0(1)--substrate thermal conductivity
 % x0(2)--offset
 
-disp("Fit substrate thermal conductivity and offset")
+disp("Fit several parameters together")
 disp("Initial substrate thermal conductivity: " + x0(2) + " W/m/K")
 
 % lsq set up
@@ -21,9 +21,11 @@ lb = [0, 0, 1e-7, 1e-7, 1e-7,-180];
 ub = [400, 400, 1e-3, 1e-3, 1e-3, 180];
 
 % call lsqnonlin
-[x_crit,~] = lsqnonlin(fun, x0, lb, ub);
+options = optimoptions(@lsqnonlin, Algorithm='trust-region-reflective');
+[x_crit,~] = lsqnonlin(fun, x0, lb, ub, options);
 
-disp("Best fit substrate thermal conductivity: " + x_crit(2) + " W/m/K")
+disp("Best fit substrate thermal conductivity: " + x_crit(2)...
+    + " W/m/K" + newline)
 
 function f = res(Kf, Ks, C, a, R, h, Rth, r, P, f, offset, data)
 
