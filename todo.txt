@@ -1,0 +1,2 @@
+Add fit film thermal conductivity step to lsq_fit_series.m script
+Then optimize substrate thermal conductivity again.
