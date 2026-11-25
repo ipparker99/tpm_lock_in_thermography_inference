@@ -1,2 +1,8 @@
 Add fit film thermal conductivity step to lsq_fit_series.m script
 Then optimize substrate thermal conductivity again.
+
+Ideas
+- Fit log properties instead
+- Use automatic differentiation to compute jacobian and fim
+
+
